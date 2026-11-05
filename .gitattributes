@@ -1,0 +1,5 @@
+# keep LF everywhere: index.html's Content-Security-Policy pins the inline theme script by its exact bytes
+* text=auto eol=lf
+*.mp3 binary
+*.png binary
+*.woff2 binary

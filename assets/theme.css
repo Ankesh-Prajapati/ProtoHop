@@ -1,0 +1,223 @@
+/* ProtoHop theme: a flat, restrained layer over the original stylesheet (index-*.css) and the
+   toned-down colour tokens in palette.css. Layout and behaviour come from the original. */
+
+@font-face {
+  font-family: "Inter";
+  src: url("fonts/inter-var.woff2") format("woff2");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "JetBrains Mono";
+  src: url("fonts/jetbrains-mono-var.woff2") format("woff2");
+  font-weight: 100 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ---------- tokens ---------- */
+:root {
+  --nf-sans: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --nf-mono: "JetBrains Mono", ui-monospace, "Cascadia Mono", Consolas, monospace;
+
+  --bg: #f4f6f9;
+  --panel: #ffffff;
+  --nf-raised: #f7f8fa;
+  --nf-hover: #f1f3f7;
+  --line: #dde2ea;
+  --line-mid: #e1e5ec;
+  --line-soft: #edf0f4;
+  --ink: #1b2333;
+  --ink-strong: #0f172a;
+  --ink-soft: #465063;
+  --ink-muted: #6b7486;
+  --nf-accent: #2563eb;
+  --nf-accent-hover: #1d4fd0;
+  --nf-accent-text: #2158d6;
+  --nf-accent-tint: rgba(37, 99, 235, .08);
+  --active: var(--nf-accent);
+  --blue: var(--nf-accent);
+  --nf-radius: 10px;
+  --nf-radius-sm: 6px;
+
+  font-family: var(--nf-sans);
+  font-feature-settings: "cv11", "ss03";
+  letter-spacing: 0;
+}
+[data-theme="dark"] {
+  --bg: #0e131c;
+  --panel: #141a24;
+  --nf-raised: #19202c;
+  --nf-hover: #1c2431;
+  --line: #273041;
+  --line-mid: #2a3445;
+  --line-soft: #1f2735;
+  --ink: #e4e8ef;
+  --ink-strong: #f3f5f8;
+  --ink-soft: #a9b2c1;
+  --ink-muted: #7d8798;
+  --nf-accent: #3b7cf0;
+  --nf-accent-hover: #5590f5;
+  --nf-accent-text: #79a7f7;
+  --nf-accent-tint: rgba(59, 124, 240, .13);
+}
+
+/* mono where the content is data: addresses, ports, bytes, counters */
+.packet-table td,
+.facts dd,
+.explain-payload,
+.explain-meta,
+.tab-count,
+.learning-value,
+.osi-chips span,
+.speed-label,
+.network .node-ip,
+.network .packet-field,
+.network .url-text {
+  font-family: var(--nf-mono);
+  font-variant-ligatures: none;
+}
+
+body { background: var(--bg); }
+
+/* ---------- top bar ---------- */
+.logo-frame { width: 34px; height: 34px; margin-inline-start: 2px; }
+.logo-frame .corner { display: none; }
+.logo-mark { display: block; width: 34px; height: 34px; }
+.brand-text { margin-inline-start: 12px; }
+.brand-text h1 {
+  font-size: 20px; line-height: 24px; font-weight: 700; letter-spacing: -.015em; color: var(--ink-strong);
+}
+.brand-text h1 em { font-style: normal; margin: 0; color: var(--nf-accent-text); }
+/* the app fits this line to the old, wider wordmark with inline styles; keep it at its own size */
+.brand-text p { margin-top: 1px; font-size: 11.5px !important; line-height: 15px; font-weight: 500; letter-spacing: 0 !important; color: var(--ink-muted); }
+
+.now-label, .osi-label, .learning-label, .credit-label {
+  font-size: 10.5px; font-weight: 600; letter-spacing: .09em; color: var(--ink-muted);
+}
+.now-title { font-size: 15px; line-height: 20px; font-weight: 600; letter-spacing: .01em; color: var(--ink-strong); }
+.now-step, .learning-sub { font-size: 11.5px; font-weight: 500; letter-spacing: .02em; color: var(--ink-muted); }
+.now-dots i { border-radius: 2px; background: var(--line-mid); }
+.now-dots i.is-active:after { background: var(--nf-accent); animation: none; }
+.osi-name { font-size: 10.5px; font-weight: 600; letter-spacing: .08em; color: var(--ink-soft); }
+.osi-chips span { border-radius: 5px; border-color: var(--line); font-size: 11px; font-weight: 500; color: var(--ink-muted); }
+.osi-marker { border-radius: 5px; background: var(--nf-accent); }
+.learning-value { font-size: 14px; font-weight: 600; letter-spacing: 0; color: var(--ink-strong); }
+.learning-seg { border-radius: 2px; background: var(--line-mid); }
+.learning-seg i { background: var(--nf-accent); }
+.learning-seg.partial i { background: color-mix(in srgb, var(--nf-accent) 55%, transparent); }
+.topbar-sep { background: var(--line); }
+.credit-name { font-size: 13.5px; font-weight: 600; letter-spacing: 0; }
+.credit:hover .credit-x { transform: none; }
+
+.theme-toggle { border-color: var(--line); border-radius: var(--nf-radius-sm); overflow: hidden; }
+.theme-toggle button + button { border-color: var(--line); }
+.theme-toggle .is-active { background: var(--nf-accent); }
+.menu-btn { border-radius: var(--nf-radius-sm) !important; }
+.lang-menu { border-color: var(--line); border-radius: 8px; box-shadow: 0 8px 24px rgba(0, 0, 0, .18); }
+.lang-menu button { border-radius: 5px; font-size: 13px; font-weight: 500; letter-spacing: 0; }
+
+/* ---------- panels ---------- */
+.panel {
+  border: 1px solid var(--line);
+  border-radius: var(--nf-radius);
+  background: var(--panel);
+  box-shadow: none;
+}
+.panel-title, .panel-title.sm {
+  font-size: 12px !important; line-height: 16px; font-weight: 600; letter-spacing: .1em !important; color: var(--ink-muted);
+}
+.panel-head.bar { border-bottom-color: var(--line-soft); }
+.more { color: var(--ink-muted); border-radius: var(--nf-radius-sm); }
+.more:hover { background: var(--nf-hover); }
+.back-btn { border-color: var(--line); border-radius: var(--nf-radius-sm); font-size: 11px; font-weight: 600; letter-spacing: .06em; color: var(--ink-soft); }
+.back-btn:hover { background: var(--nf-hover); }
+
+/* ---------- buttons ---------- */
+.btn {
+  height: 32px; border-color: var(--line); border-radius: var(--nf-radius-sm);
+  font-size: 12px; font-weight: 600; letter-spacing: .04em; color: var(--ink);
+}
+.btn:not(.primary):not(:disabled):hover { background: var(--nf-hover); }
+.btn.primary {
+  background: var(--nf-accent); border-color: var(--nf-accent); box-shadow: none; color: #fff;
+}
+.btn.primary:hover { background: var(--nf-accent-hover); border-color: var(--nf-accent-hover); }
+
+/* ---------- protocol sidebar ---------- */
+.tabs { height: 32px; border-color: var(--line); border-radius: 8px; overflow: hidden; background: var(--nf-raised); }
+.tab { font-size: 11.5px; font-weight: 600; letter-spacing: .05em; color: var(--ink-soft); border-color: var(--line); }
+.tab:hover { background: var(--nf-hover); }
+.tab.is-active { color: var(--ink-strong); background: var(--panel); }
+.tab-indicator { height: 2px; background: var(--nf-accent); }
+.tab-count { min-width: 18px; border-radius: 5px; background: var(--line-soft); font-size: 10.5px; font-weight: 500; color: var(--ink-muted); }
+.tab.is-active .tab-count { background: var(--nf-accent); color: #fff; }
+
+.proto { border-bottom-color: var(--line-soft); }
+.proto-row { border: 0; border-radius: 8px; padding-inline: 12px 12px; }
+.proto.has-lesson:not(.is-active) .proto-row:hover { background-color: var(--nf-hover); }
+.proto.is-active .proto-row { background-color: var(--nf-accent-tint); box-shadow: inset 3px 0 0 var(--nf-accent); }
+.proto.is-active .proto-chev { color: var(--nf-accent-text); }
+.proto-chev { color: var(--ink-muted); }
+.proto-text { margin-inline-start: 14px; }
+.proto-name { font-size: 14px; line-height: 18px; font-weight: 600; letter-spacing: .01em; color: var(--ink-strong); }
+.proto-full { font-size: 12.5px; line-height: 17px; font-weight: 400; letter-spacing: 0; color: var(--ink-muted); }
+.status-dot { width: 9px; height: 9px; }
+.status-dot.new { background: transparent; box-shadow: inset 0 0 0 1.5px var(--ink-muted); }
+
+.step-num { width: 20px; height: 20px; font-size: 10.5px; font-weight: 600; background: var(--line); color: var(--ink-soft); }
+.step-num:after { display: none; }
+.step.is-active .step-num { background: var(--nf-accent); color: #fff; box-shadow: 0 0 0 3px var(--nf-accent-tint); }
+.step.is-active .step-num:after { animation: none; }
+.step.is-done .step-num { color: #fff; }
+.step-btn:hover .step-num { box-shadow: 0 0 0 3px var(--nf-accent-tint); }
+.step-title { font-size: 12px; line-height: 16px; font-weight: 600; letter-spacing: .03em; color: var(--ink-soft); }
+.step-desc { font-size: 12px; line-height: 16px; font-weight: 400; color: var(--ink-muted); }
+.step.is-active .step-title, .step.is-done .step-title { color: var(--ink-strong); }
+.step.is-active .step-desc { color: var(--ink-soft); }
+.step-btn:hover .step-title { color: var(--nf-accent-text); }
+
+/* ---------- network view ---------- */
+.view-switch { border-color: var(--line); border-radius: 8px; background: var(--panel); }
+.view-switch button { font-size: 11px; font-weight: 600; letter-spacing: .05em; }
+.network text, .sequence text { font-family: var(--nf-sans); }
+.network .node-name { font-size: 13.5px; font-weight: 600; letter-spacing: 0; }
+.network .node-ip { font-size: 12.5px; font-weight: 400; letter-spacing: 0; fill: var(--ink-soft); }
+.network .note-text, .seq-note-text { font-size: 11px; font-weight: 600; letter-spacing: .04em; }
+.network .packet-label { font-family: var(--nf-sans); font-size: 11.5px; font-weight: 600; letter-spacing: .03em; }
+.network .lane.is-active { animation-duration: 1s; }
+
+/* ---------- overview and step details ---------- */
+.overview-name h3 { font-size: 26px; line-height: 32px; font-weight: 700; letter-spacing: -.01em; color: var(--ink-strong); }
+.badge { height: 22px; gap: 7px; padding-inline: 9px 10px; border-radius: 999px; font-size: 11px; font-weight: 600; letter-spacing: .06em; }
+.badge i { width: 7px; height: 7px; }
+.overview-full { font-size: 14px; line-height: 20px; font-weight: 500; letter-spacing: 0; color: var(--ink-soft); }
+.overview-desc { margin-top: 10px; font-size: 13.5px; line-height: 22px; font-weight: 400; color: var(--ink-soft); }
+.facts dt { font-size: 11px; line-height: 15px; font-weight: 600; letter-spacing: .07em; color: var(--ink-muted); }
+.facts dd { font-size: 12px; line-height: 16px; font-weight: 400; color: var(--ink); }
+.facts > div, .facts > div:last-child { border-color: var(--line-soft); }
+
+.explain-label { font-size: 11px; font-weight: 600; letter-spacing: .09em; color: var(--nf-accent-text); }
+.explain-title { margin-top: 6px; font-size: 20px; line-height: 26px; font-weight: 700; letter-spacing: 0; color: var(--ink-strong); }
+.explain-sub { font-size: 14px; line-height: 20px; font-weight: 500; letter-spacing: 0; color: var(--ink-soft); }
+.explain-text { margin-top: 8px; font-size: 13.5px; line-height: 22px; font-weight: 400; color: var(--ink-soft); }
+.explain-packet-card { border-color: var(--line); border-radius: 8px; background: var(--nf-raised); }
+.explain-packet-head b { border-radius: 4px; font-size: 11px; font-weight: 600; letter-spacing: .05em; }
+.explain-packet-head span { font-size: 11.5px; font-weight: 500; letter-spacing: .02em; color: var(--ink-soft); }
+.explain-payload { font-size: 12px; line-height: 18px; font-weight: 400; color: var(--ink); }
+.explain-meta { font-size: 11px; font-weight: 400; letter-spacing: 0; color: var(--ink-muted); }
+
+/* ---------- packet flow ---------- */
+.packet-legend { font-size: 12px; font-weight: 500; letter-spacing: 0; color: var(--ink-soft); }
+.legend-note { border-color: var(--line); color: var(--ink-muted); }
+.packet-table th {
+  height: 30px; font-size: 10.5px; font-weight: 600; letter-spacing: .09em; color: var(--ink-muted);
+  background: var(--panel); box-shadow: inset 0 -1px 0 var(--line);
+}
+.packet-table td { height: 28px; font-size: 12px; font-weight: 400; color: var(--ink-soft); border-bottom-color: var(--line-soft); }
+.packet-table tr[data-packet]:hover td { background: var(--nf-hover); }
+.packet-table tr.is-current td { background: var(--nf-accent-tint); color: var(--ink); }
+.packet-table tr.is-current td:first-child { box-shadow: inset 2px 0 0 var(--nf-accent); }
+.packet-table tr.is-inspected td { background: var(--nf-hover); box-shadow: none; }
+.packet-table .packet-empty td { font-family: var(--nf-sans); color: var(--ink-muted); letter-spacing: 0; }

@@ -1,0 +1,6 @@
+promo-video/
+.playwright-cli/
+__pycache__/
+*.pyc
+.DS_Store
+Thumbs.db

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-ooNIj8M2bZf3UIHgE7e8o11ZeiauqP2n9oWDXRxuios='; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; media-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>ProtoHop · Hop in. Explore how the internet works.</title>
+    <meta name="description" content="Watch the internet work, packet by packet. Narrated, interactive lessons on HTTP, HTTPS, TCP, UDP, IP, DNS, DHCP, ICMP, SMTP, POP3, IMAP, FTP, SSH and TLS, with every packet decoded byte by byte.">
+    <meta name="author" content="Ankesh Prajapati">
+    <meta name="color-scheme" content="dark light">
+    <meta name="theme-color" content="#0e131c">
+    <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="ProtoHop">
+    <meta property="og:title" content="ProtoHop · Hop in. Explore how the internet works.">
+    <meta property="og:description" content="Watch the internet work, packet by packet: narrated, interactive lessons from DNS and TCP to TLS, with every packet decoded byte by byte.">
+    <meta property="og:locale" content="en_US">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:creator" content="@AnkeshP62316667">
+    <meta name="twitter:title" content="ProtoHop · Hop in. Explore how the internet works.">
+    <meta name="twitter:description" content="Watch the internet work, packet by packet: narrated, interactive lessons from DNS and TCP to TLS, with every packet decoded byte by byte.">
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "ProtoHop",
+        "description": "Narrated, interactive lessons on how internet protocols work, with every packet decoded byte by byte.",
+        "applicationCategory": "EducationalApplication",
+        "operatingSystem": "Any",
+        "inLanguage": "en",
+        "isAccessibleForFree": true,
+        "author": { "@type": "Person", "name": "Ankesh Prajapati", "url": "https://x.com/AnkeshP62316667" }
+      }
+    </script>
+
+    <script>
+      // theme before first paint: the visitor's last choice, otherwise dark
+      try {
+        const saved = localStorage.getItem('protocol-explorer:theme')
+        document.documentElement.dataset.theme = saved === 'light' ? 'light' : 'dark'
+      } catch {
+        document.documentElement.dataset.theme = 'dark'
+      }
+    </script>
+    <link rel="stylesheet" href="assets/index-C1vckX_Q.css">
+    <link rel="stylesheet" href="assets/palette.css?v=13">
+    <link rel="stylesheet" href="assets/theme.css?v=13">
+    <script type="module" src="assets/index-T6io6WnP.js?v=13"></script>
+    <script type="module" src="assets/audio-narrator.js?v=13"></script>
+  </head>
+  <body>
+    <div id="app"></div>
+    <noscript>
+      <p style="margin: 40px; font: 16px/1.5 system-ui, sans-serif; color: #e6e9ef">
+        ProtoHop animates packets as they travel the network, so it needs JavaScript. Please turn it on to start the lessons.
+      </p>
+    </noscript>
+  </body>
+</html>
