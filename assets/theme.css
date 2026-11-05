@@ -81,15 +81,42 @@
 
 body { background: var(--bg); }
 
-/* ---------- top bar ---------- */
-.logo-frame { width: 34px; height: 34px; margin-inline-start: 2px; }
-.logo-frame .corner { display: none; }
-.logo-mark { display: block; width: 34px; height: 34px; }
-.brand-text { margin-inline-start: 12px; }
-.brand-text h1 {
-  font-size: 20px; line-height: 24px; font-weight: 700; letter-spacing: -.015em; color: var(--ink-strong);
+/* ---------- brand: logo and wordmark ---------- */
+:root {
+  --logo-bg: #E8F0FF;
+  --logo-node-color: #172B4D;
+  --logo-line-color: #172B4D;
+  --logo-primary: #2563EB;
+  --logo-secondary: #60A5FA;
+  --brand-text: #172033;
+  --brand-accent: #2563EB;
 }
-.brand-text h1 em { font-style: normal; margin: 0; color: var(--nf-accent-text); }
+[data-theme="dark"] {
+  --logo-bg: #2563EB;
+  --logo-node-color: #FFFFFF;
+  --logo-line-color: #FFFFFF;
+  --logo-primary: #FFFFFF;
+  --logo-secondary: #BFDBFE;
+  --brand-text: #F8FAFC;
+  --brand-accent: #60A5FA;
+}
+.logo-frame { width: 44px; height: 44px; margin-inline-start: 2px; }
+.logo-frame .corner { display: none; }
+.brand-icon { display: block; flex-shrink: 0; width: 44px; height: 44px; }
+.logo-bg { fill: var(--logo-bg); }
+.logo-node { fill: var(--logo-node-color); }
+.logo-line { stroke: var(--logo-line-color); }
+.logo-layer-primary { fill: var(--logo-primary); }
+.logo-layer-secondary { fill: var(--logo-secondary); }
+.brand-text { margin-inline-start: 11px; }
+.brand-text h1 {
+  font-family: var(--nf-sans); font-size: 25px; line-height: 1; font-weight: 750; letter-spacing: -1.1px; color: var(--brand-text);
+}
+.brand-text h1 em { font-style: normal; margin: 0; font-weight: 750; color: var(--brand-accent); }
+/* phones and narrow tablets: same mark, scaled down as a unit */
+:root[data-layout="narrow"] .logo-frame, :root[data-layout="phone"] .logo-frame,
+:root[data-layout="narrow"] .brand-icon, :root[data-layout="phone"] .brand-icon { width: 36px; height: 36px; }
+:root[data-layout="narrow"] .brand-text h1, :root[data-layout="phone"] .brand-text h1 { font-size: 21px; letter-spacing: -.9px; }
 /* the app fits this line to the old, wider wordmark with inline styles; keep it at its own size */
 .brand-text p { margin-top: 1px; font-size: 11.5px !important; line-height: 15px; font-weight: 500; letter-spacing: 0 !important; color: var(--ink-muted); }
 
