@@ -252,7 +252,9 @@ body { background: var(--bg); }
 /* ---------- small screens (phones, foldables, narrow tablets) ---------- */
 /* Inter is wider than the original condensed face: let the lesson title wrap instead of cutting it off */
 .is-single .now-title { white-space: normal; overflow: visible; text-overflow: clip; font-size: 14px; line-height: 18px; }
-.is-single .now-step { font-size: 10.5px; letter-spacing: .02em; }
+.is-single .now-step { font-size: 10.5px; line-height: 13px; letter-spacing: .02em; white-space: normal; overflow: visible; text-overflow: clip; }
+.is-single .now-progress { align-items: flex-start; }
+.is-single .now-dots { margin-top: 4px; }
 
 /* the packet table scrolls sideways here; fade its right edge so the extra columns are discoverable */
 @property --nf-edge { syntax: "<length>"; inherits: false; initial-value: 36px; }
