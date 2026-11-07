@@ -89,7 +89,23 @@
     if (sim && caption.parentNode !== sim) sim.appendChild(caption)
     caption.textContent = text
     caption.hidden = !text
+    updateCaptionSpace()
   }
+
+  // Keep captions in a reserved strip so they cannot cover diagram nodes. The strip stays while voice
+  // is on and only ever grows: resizing it per caption would make the diagram jump between sentences.
+  const CAPTION_SPACE = 66 // two lines of caption
+  let captionSpace = CAPTION_SPACE
+  function updateCaptionSpace() {
+    const sim = $('.simulation')
+    if (!sim) return
+    sim.classList.toggle('has-caption', enabled)
+    if (!enabled) return sim.style.removeProperty('--caption-space')
+    if (!caption.hidden) captionSpace = Math.max(captionSpace, Math.ceil(caption.offsetHeight + 16))
+    sim.style.setProperty('--caption-space', `${captionSpace}px`)
+  }
+  new ResizeObserver(updateCaptionSpace).observe(caption)
+  window.addEventListener('resize', () => { captionSpace = CAPTION_SPACE; updateCaptionSpace() })
   // Only the sentence being spoken is shown.
   let lines = []
   const sentences = text => text.split(/(?<=[.!?…])\s+/).filter(Boolean)
@@ -258,6 +274,13 @@
     .nf-voice[aria-pressed="true"] { color: var(--nf-accent-text); border-color: color-mix(in srgb, var(--nf-accent) 45%, var(--line)); }
     .nf-voice.is-speaking { background: var(--nf-accent-tint); }
     .nf-voice.is-floating { position: fixed; right: 16px; bottom: 16px; z-index: 50; background: var(--panel); }
+    /* phones and narrow screens dock the controls in a fixed grid: give VOICE its own icon-only column */
+    .is-single .packet-actions { grid-template-columns: 42px 46px 42px minmax(84px, 240px) 60px 42px; }
+    .is-single .nf-voice { padding: 0; gap: 0; justify-content: center; }
+    .is-single .nf-voice span { display: none; }
+    /* medium layout: icon-only like the app's RESET button, so the colour key keeps its room */
+    :root[data-layout="medium"] .nf-voice { min-width: 34px; width: 34px; padding: 0; gap: 0; justify-content: center; }
+    :root[data-layout="medium"] .nf-voice span { display: none; }
 
     /* filter, not opacity: the app drives node visibility through inline opacity */
     .network g.node { transition: filter .3s; }
@@ -265,8 +288,10 @@
     tr.pe-hl-row > td { background: var(--nf-accent-tint) !important; color: var(--ink) !important; }
     tr.pe-hl-row > td:first-child { box-shadow: inset 2px 0 0 var(--nf-accent) !important; }
 
-    #pe-caption { position: absolute; left: 50%; bottom: 10px; transform: translateX(-50%); z-index: 5;
-      width: max-content; max-width: min(78%, 600px); padding: 6px 12px; border-radius: 6px;
+    /* overflow: the grid is drawn inside the SVG; let it run behind the caption strip, clipped by the panel */
+    .simulation.has-caption .network { bottom: auto; height: calc(100% - var(--caption-space, 64px)); overflow: visible; }
+    #pe-caption { position: absolute; left: 50%; bottom: 8px; transform: translateX(-50%); z-index: 5;
+      width: max-content; max-width: min(calc(100% - 24px), 600px); padding: 6px 12px; border-radius: 6px;
       background: var(--panel); color: var(--ink); border: 1px solid var(--line);
       font: 500 12.5px/1.45 var(--nf-sans, system-ui, sans-serif); text-align: center; text-wrap: balance;
       pointer-events: none; }`
@@ -306,6 +331,7 @@
     for (const panel of stage.querySelectorAll('.overview-body')) observer.observe(panel, { attributes: true, attributeFilter: ['hidden', 'class'] })
     observer.observe(toggle, { attributes: true, attributeFilter: ['class'] })
     observer.observe(list, { attributes: true, attributeFilter: ['data-lesson'] })
+    updateCaptionSpace()
     return true
   }
   if (!attach()) {
@@ -328,6 +354,7 @@
       clearHighlight()
       openGates()
     }
+    updateCaptionSpace()
     render()
   })
 

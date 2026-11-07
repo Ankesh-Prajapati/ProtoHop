@@ -248,3 +248,27 @@ body { background: var(--bg); }
 .packet-table tr.is-current td:first-child { box-shadow: inset 2px 0 0 var(--nf-accent); }
 .packet-table tr.is-inspected td { background: var(--nf-hover); box-shadow: none; }
 .packet-table .packet-empty td { font-family: var(--nf-sans); color: var(--ink-muted); letter-spacing: 0; }
+
+/* ---------- small screens (phones, foldables, narrow tablets) ---------- */
+/* Inter is wider than the original condensed face: let the lesson title wrap instead of cutting it off */
+.is-single .now-title { white-space: normal; overflow: visible; text-overflow: clip; font-size: 14px; line-height: 18px; }
+.is-single .now-step { font-size: 10.5px; letter-spacing: .02em; }
+
+/* the packet table scrolls sideways here; fade its right edge so the extra columns are discoverable */
+@property --nf-edge { syntax: "<length>"; inherits: false; initial-value: 36px; }
+.is-single .packet-scroll {
+  -webkit-mask-image: linear-gradient(to right, #000 calc(100% - var(--nf-edge)), transparent);
+  mask-image: linear-gradient(to right, #000 calc(100% - var(--nf-edge)), transparent);
+}
+@keyframes nf-edge { 0%, 90% { --nf-edge: 36px; } 100% { --nf-edge: 0px; } }
+@supports (animation-timeline: scroll()) {
+  .is-single .packet-scroll { animation: nf-edge linear both; animation-timeline: scroll(self inline); }
+}
+
+/* landscape phones and unfolded foldables: keep the whole diagram visible above the docked controls */
+@media (orientation: landscape) and (max-height: 600px) {
+  .is-single .simulation { height: max(220px, calc(100svh - 86px)); }
+}
+
+/* medium layout (small laptops, landscape tablets): keep the credit on one line */
+.credit-name { white-space: nowrap; }
